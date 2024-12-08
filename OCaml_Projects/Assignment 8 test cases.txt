@@ -1,0 +1,68 @@
+(* Test Case 1 *)
+let id = Lam ("x", V "x");;
+let gamma = fun _ -> None;;
+let conf = (Closure (id, gamma), []);;
+
+let final_conf = evaluate conf;;
+let result = unload final_conf;;
+
+Printf.printf "Identity Function: %s\n"
+  (match result with
+   | Lam (x, V y) when x = y -> Printf.sprintf "\\%s.%s" x y
+   | _ -> "Failure");;
+
+(* Test Case 2 *)
+let id_app = App (Lam ("x", V "x"), V "y");;
+let gamma = fun _ -> None;;
+let conf = (Closure (id_app, gamma), []);;
+
+let final_conf = evaluate conf;;
+let result = unload final_conf;;
+
+Printf.printf "Application of Identity Function: %s\n"
+  (match result with V x -> x | _ -> "Failure");;
+
+(* Test Case 3 *)
+let nested = Lam ("x", Lam ("y", V "x"));;
+let gamma = fun _ -> None;;
+let conf = (Closure (nested, gamma), []);;
+
+let final_conf = evaluate conf;;
+let result = unload final_conf;;
+
+Printf.printf "Nested Abstractions: %s\n"
+  (match result with
+   | Lam (x, Lam (y, V z)) when z = x -> Printf.sprintf "\\%s.\\%s.%s" x y z
+   | _ -> "Failure");;
+
+(* Test Case 4 *)
+let pair = Lam ("x", Lam ("y", Lam ("z", App (App (V "z", V "x"), V "y"))));;
+let first = Lam ("p", App (V "p", Lam ("x", Lam ("y", V "x"))));;
+let second = Lam ("p", App (V "p", Lam ("x", Lam ("y", V "y"))));;
+
+let pair_app = App (App (pair, V "a"), V "b");;
+let first_app = App (first, pair_app);;
+let second_app = App (second, pair_app);;
+
+let eval_first = evaluate (Closure (first_app, fun _ -> None), []);;
+let eval_second = evaluate (Closure (second_app, fun _ -> None), []);;
+
+let result_first = unload eval_first;;
+let result_second = unload eval_second;;
+
+Printf.printf "First: %s\nSecond: %s\n"
+  (match result_first with V x -> x | _ -> "Failure")
+  (match result_second with V x -> x | _ -> "Failure");;
+
+(* Test Case 5 *)
+let term = App (Lam ("x", Lam ("y", V "x")), V "y");;
+let gamma = fun _ -> None;;
+let conf = (Closure (term, gamma), []);;
+
+let final_conf = evaluate conf;;
+let result = unload final_conf;;
+
+Printf.printf "Test Case 5 Result: %s\n"
+  (match result with
+   | Lam (y, V x) when x = "y" -> Printf.sprintf "\\%s.%s" y x
+   | _ -> "Failure");;

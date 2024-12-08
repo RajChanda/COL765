@@ -1,0 +1,47 @@
+let prog0 = [
+  (* Facts *)
+  parse_fact "studies" ["charlie"; "csc135"];
+  parse_fact "studies" ["olivia"; "csc135"];
+  parse_fact "studies" ["jack"; "csc131"];
+  parse_fact "studies" ["arthur"; "csc134"];
+
+  parse_fact "teaches" ["kirke"; "csc135"];
+  parse_fact "teaches" ["collins"; "csc131"];
+  parse_fact "teaches" ["collins"; "csc171"];
+  parse_fact "teaches" ["juniper"; "csc134"];
+
+  (* Rule *)
+  parse_rule "professor" ["X"; "Y"] [
+    ("teaches", ["X"; "C"]);
+    ("studies", ["Y"; "C"])
+  ]
+];;
+
+(* Queries *)
+
+(* 1. ?- studies(charlie, X). *)
+let query1 = [parse_predicate "studies" ["charlie"; "X"]];;
+Printf.printf "Query 1: studies(charlie, X).\n";;
+execute_all prog0 query1;;
+Printf.printf "\n";;
+
+(* 2. ?- studies(charlie, X), studies(olivia, X). *)
+let query2 = [
+  parse_predicate "studies" ["charlie"; "X"];
+  parse_predicate "studies" ["olivia"; "X"]
+];;
+Printf.printf "Query 2: studies(charlie, X), studies(olivia, X).\n";;
+execute_all prog0 query2;;
+Printf.printf "\n";;
+
+(* 3. ?- professor(kirke, olivia). *)
+let query3 = [parse_predicate "professor" ["kirke"; "olivia"]];;
+Printf.printf "Query 3: professor(kirke, olivia).\n";;
+execute_all prog0 query3;;
+Printf.printf "\n";;
+
+(* 4. ?- professor(X, arthur). *)
+let query4 = [parse_predicate "professor" ["X"; "arthur"]];;
+Printf.printf "Query 4: professor(X, arthur).\n";;
+execute_all prog0 query4;;
+Printf.printf "\n";;

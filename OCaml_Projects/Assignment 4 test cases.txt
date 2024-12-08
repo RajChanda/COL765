@@ -1,0 +1,83 @@
+Assignment 4
+
+(* Test cases *)
+
+(* 1. member 3 [5;3;6] *)
+let s1 = make_set [5;3;6];;
+let res1 = member 3 s1;;
+Printf.printf "Test 1: member 3 [5;3;6] -> %b\n" res1;;
+
+(* 2. member 4 [5;3;6] *)
+let res2 = member 4 s1;;
+Printf.printf "Test 2: member 4 [5;3;6] -> %b\n" res2;;
+
+(* 3. member 4 [] *)
+let s_empty = emptyset;;
+let res3 = member 4 s_empty;;
+Printf.printf "Test 3: member 4 [] -> %b\n" res3;;
+
+(* 4. subset [10;20] [10;30;20] *)
+let s2 = make_set [10;20];;
+let s3 = make_set [10;30;20];;
+let res4 = subset s2 s3;;
+Printf.printf "Test 4: subset [10;20] [10;30;20] -> %b\n" res4;;
+
+(* 5. subset [10;20;40] [10;30;20] *)
+let s4 = make_set [10;20;40];;
+let res5 = subset s4 s3;;
+Printf.printf "Test 5: subset [10;20;40] [10;30;20] -> %b\n" res5;;
+
+(* 6. subset [10;20] [10] *)
+let s5 = make_set [10;20];;
+let s6 = make_set [10];;
+let res6 = subset s5 s6;;
+Printf.printf "Test 6: subset [10;20] [10] -> %b\n" res6;;
+
+(* 7. equalsets [10;20] [10;20;30] *)
+let s7 = make_set [10;20];;
+let s8 = make_set [10;20;30];;
+let res7 = equalsets s7 s8;;
+Printf.printf "Test 7: equalsets [10;20] [10;20;30] -> %b\n" res7;;
+
+(* 8. equalsets [10;20;30] [10;30;20] *)
+let s9 = make_set [10;20;30];;
+let s10 = make_set [10;30;20];;
+let res8 = equalsets s9 s10;;
+Printf.printf "Test 8: equalsets [10;20;30] [10;30;20] -> %b\n" res8;;
+
+(* 9. union [10;50] [10;20;40] *)
+let s11 = make_set [10;50];;
+let s12 = make_set [10;20;40];;
+let res9 = union s11 s12;;
+Printf.printf "Test 9: union [10;50] [10;20;40] -> %s\n" (string_of_int_set res9);;
+
+(* 10. inter [10;50] [10;20;40] *)
+let res10 = inter s11 s12;;
+Printf.printf "Test 10: inter [10;50] [10;20;40] -> %s\n" (string_of_int_set res10);;
+
+(* 11. diff [10;50] [10;20;40] *)
+let res11 = diff s11 s12;;
+Printf.printf "Test 11: diff [10;50] [10;20;40] -> %s\n" (string_of_int_set res11);;
+
+(* 12. power [] *)
+let res12 = power emptyset;;
+let res12_str = String.concat "; " (List.map string_of_int_set res12);;
+Printf.printf "Test 12: power [] -> [%s]\n" res12_str;;
+
+(* 13. power [10;30;20] *)
+let s13 = make_set [10;30;20];;
+let res13 = power s13;;
+let res13_str = String.concat "\n" (List.map string_of_int_set res13);;
+Printf.printf "Test 13: power [10;30;20] ->\n%s\n" res13_str;;
+
+(* 14. product [1;2;3] [10;20;30] *)
+let s14 = make_set [1;2;3];;
+let s15 = make_set [10;20;30];;
+let res14 = product s14 s15;;
+let res14_str = string_of_pair_set res14;;
+Printf.printf "Test 14: product [1;2;3] [10;20;30] -> %s\n" res14_str;;
+
+(* 15. product [1;2;3] [] *)
+let res15 = product s14 emptyset;;
+let res15_str = string_of_pair_set res15;;
+Printf.printf "Test 15: product [1;2;3] [] -> %s\n" res15_str;;
